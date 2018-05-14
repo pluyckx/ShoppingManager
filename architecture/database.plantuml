@@ -1,0 +1,38 @@
+@startuml
+!define table(x) class x << (T,#FFAAAA) >>
+!define field(x,t) x: t
+!define primary_key(x) <b>x [PRIMARY KEY]</b>
+!define unique(x) <i>x [UNIQUE]</i>
+!define reference(t_src, f_src, t_dst, f_dst, dashes) t_src::f_src dashes> t_dst::f_dst
+hide empty members
+
+table(ShoppingLists) {
+  primary_key(field(_ROWID_, int))
+  field(shop, int)
+  field(date, date)
+}
+
+table(Shops) {
+  primary_key(field(_ROWID_, int))
+  unique(field(name, text))
+}
+
+table(Products) {
+  primary_key(field(_ROWID_, int))
+  unique(field(name, text))
+}
+
+table(ListItems) {
+  primary_key(field(_ROWID_, int))
+  field(list, int)
+  field(product, int)
+  field(price, float)
+  field(amount, float)
+  field(unit, text)
+}
+
+reference(ListItems, list, ShoppingLists, _ROWID_, --)
+reference(ListItems, product, Products, _ROWID_, --)
+reference(ShoppingLists, shop, Shops, _ROWID_, -)
+
+@enduml cannot with current version (7876). You can use the followin
